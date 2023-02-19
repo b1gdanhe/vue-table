@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue';
 
 
 const headers = ref([
-  { text: 'Nom', value: 'name' }
+  { text: 'Nom', value: 'title' }
 ])
 const items = ref([])
 const serverOptions = ref({
@@ -18,15 +18,12 @@ function getData() {
   loading.value = true
   let limit = serverOptions.value.rowsPerPage
   let skip = (serverOptions.value.page - 1) * serverOptions.value.rowsPerPage
-  fetch('http://localhost:8000/api/products?page=' + serverOptions.value.page + '&per_page=' + serverOptions.value.rowsPerPage).then(response => {
+  fetch('https://jsonplaceholder.typicode.com/posts?_page=' + serverOptions.value.page + '&_limit=' + serverOptions.value.rowsPerPage).then(response => {
     return response.json()
   }).then(result => {
-    console.lgo
-    items.value = result.data
-
-    serverOptions.value.rowsPerPage = result.per_page
-    serverOptions.value.page = result.current_page
-    serverItemsLength.value = result.total
+    console.log(result)
+    items.value = result
+    serverItemsLength.value = 50
   })
   loading.value = false
 
